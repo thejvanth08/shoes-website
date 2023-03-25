@@ -1,0 +1,322 @@
+/* writing mobile first css
+   it will be simple for designing or writing css for small width
+*/
+
+html {
+    scroll-behavior: smooth;
+}
+
+body { 
+    margin: 1.5em; //em -> relative to current font-size of this element (default size = 16px) 
+    //when user zooms the content the margin also grows relative to font size
+    font-family: 'Poppins', sans-serif; //san-serif acts as fallback
+}
+
+
+//margin & padding use em; font-size use rem
+a {
+    text-decoration: none;
+    font-size : 1.3rem; //for font sizes use rem units; relative to root element size (default value = 16px)
+}
+
+.hero-img {
+    position: absolute;
+    top:0;
+    left:0;
+    background: url('../images/shoe1.jpg');
+    background-size: cover;
+    background-position-x: 20%;
+    background-position-y: 20%;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    animation: introLoad 2s forwards;
+    // overflow: hidden; 
+}
+
+.logo {
+    color: white;
+    font-weight: 700;
+}
+
+nav {
+    position: fixed;
+    right: 0;
+    top: 0;
+    background-color: white;
+    height: 100vh;
+    width: 50%;
+    z-index: 999;
+    text-transform: uppercase;
+    // using js to invoke this
+    transform: translateX(100%);
+    transition: transform .5s ease-in-out;
+
+    ul {
+        list-style-type: none;
+        // to remove default padding
+        padding: 0;
+        margin-top: 8em;
+    }
+
+    a {
+        color: black;
+        // padding on link anchor element won't till it converted into block 
+        display: block;
+        padding: 0.75em 2em;
+
+        a:hover {
+            background-color: grey;
+            color: white;
+        }
+    
+    }
+    
+    .close {
+        float: right; 
+        margin: 2em;
+        width: 2.5em;
+    }
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    
+    // any svg element inside header 
+    svg {
+        width: 2em;
+        margin-top: -0.6em;
+        cursor: pointer;
+    }
+}
+
+
+h1 {
+    font-size: 3rem;
+    margin-top: 2em;
+    line-height: 3.3rem;
+}
+
+.subhead {
+    font-size: 1.4rem;
+}
+
+
+// selecting section element with class hero
+section.hero {
+    color: #fff;
+    height: 90vh;
+    // ease-in-out -> type of animation; forwards -> happends once
+    opacity: 0; //transparent before the animation
+    animation: moveDown 1s ease-in-out forwards;
+
+
+    .down-arrow {
+        // paint around the object
+        stroke: white;
+        position: absolute; 
+        bottom: 8em;
+        width: 1em;
+        animation: moveArrow 1s alternate-reverse infinite;
+
+    path {
+        // paint inside the object -> color of the object
+        fill: white;
+        }
+    }
+}
+
+.more-info {
+    
+    img {
+        width: 100%;
+        object-fit: cover;
+        height: 11em;
+    }
+ 
+    .title {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .desc {
+        line-height: 1.5rem;
+    }
+}
+
+.open-nav { 
+    transform: translateX(0%);
+}
+
+
+// styles for screen width of atleast 680px
+@media only screen and (min-width: 680px) {
+
+    body {
+        // changing left and right margin
+        margin: 1.5em 5em; 
+        font-family: 'Poppins', sans-serif; 
+    }
+
+}
+
+// styles for screen width atleast 920px
+@media only screen and (min-width: 920px) {
+
+    .menu {
+        display: none;
+    }
+
+    nav {
+        transform: translateX(0%);
+        // making it static (initial position value) with unset value
+        position: unset;
+        display: block;  
+        width: auto;
+        height: auto;
+        // removing the bg sytles applied
+        background: none;
+
+        svg.close {
+            display: none;
+        }
+
+        ul {
+            display: flex; //the child element (flex items) will become columns
+            margin: 0;
+
+            a {
+                color: white;
+                padding: 0.5em 1.5em;
+                font-size: 0.9rem;
+
+                &:hover {
+                    background: none;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .hero-img {
+        left: unset;
+        right: 0;
+        width: 50%;
+        height: 42em;
+    }
+
+    .logo {
+        color: black;
+
+        span {
+            color: red;
+        }
+    }
+
+    section.hero {
+        color: black;
+        height: auto;
+        width: 40%;
+        margin-bottom: 8em;
+
+        svg.down-arrow {
+            stroke: black;
+            // reseting it's position which is absolute previously
+            position: unset;
+            margin-top: 2em;
+            
+            path {
+                fill: black;
+            }
+        }
+    }
+
+    .feature {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        gap: 3rem;
+        margin-bottom: 8em;
+
+        img {
+            width: 25em;
+        }
+
+        .content {
+            text-align: right;
+            width: 25em;
+        }
+    }
+
+    .feature.left {
+        // assign grid areas to elements and ordering them
+        grid-template-areas: 
+        "left right";
+
+        img {
+            grid-area: left;
+        }
+        .content {
+            text-align: left;
+            width: 25em;
+            justify-self: left;
+        }
+    }
+
+
+}
+
+
+@media only screen and (min-width: 1200px) {
+    // wrapper -> container of everything
+    .wrapper {
+        width: 1200px;
+        // centering the content horizontally
+        margin: 0 auto;
+
+    }
+
+    // to reduce more gap as it is relative to root font-size
+    .feature {
+        gap: 0;
+    }
+
+    svg.down-arrow {
+        margin-top: 4em;
+    }
+}
+
+// animation for 1st (intro) load for hero-img 
+@keyframes introLoad {
+    
+    from {
+        clip-path: polygon(0 0, 100% 0, 99% 0, 0 0);
+    }
+
+    to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+}
+
+@keyframes moveArrow {
+    from {
+        // moving up 25px
+        transform: translateY(-25px);
+    }
+
+    to {
+        // to original position
+        transform: translateY(0);
+    }
+}
+
+@keyframes moveDown {
+    from {
+        transform: translateY(-100px);
+    }
+    
+    to {
+        transform: translateY(0);
+        opacity: 1; // opaque after animation
+    }
+}
